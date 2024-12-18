@@ -1,23 +1,16 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& arr, int k) {
-        unordered_map<int, int> mp; // stores value and its index
-        vector<int> ans;
-
-        for (int i = 0; i < arr.size(); i++) {
-            int complement = k - arr[i];
-
-            // Check if the complement exists in the map
-            if (mp.find(complement) != mp.end()) {
-                ans.push_back(mp[complement]); // index of complement
-                ans.push_back(i);             // current index
-                return ans;                   // return as soon as we find the pair
+        
+        int n=arr.size();
+        for(int i=0;i<n-1;i++){
+            for(int j=i+1;j<n;j++){
+                if(arr[i]+arr[j]==k){
+                    return {i,j};
+                }
             }
-
-            // Add the current element to the map
-            mp[arr[i]] = i;
         }
+        return {};
 
-        return ans; // If no pair is found, return an empty vector
     }
 };
