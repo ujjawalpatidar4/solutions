@@ -2,26 +2,33 @@ class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
         int n = nums.size();
-        // sort(nums.begin(), nums.end());
-        set<vector<int>> set;
-        for(int i=0; i<n-2; i++){
-            for(int j=i+1; j<n-1; j++){
-                unordered_map<long long,int> mpp;
-                for(int k=j+1; k<n; k++){
-                    long long sum= nums[i] + nums[j];
-                    sum+=nums[k];
-                    long long rem=target-sum;
-                    if(mpp[rem]){
-                        vector<int> ans = {nums[i], nums[j], nums[k],(int)rem};
-                        sort(ans.begin(),ans.end());
-                        set.insert(ans);
-
+        sort(nums.begin(), nums.end());
+        // set<vector<int>> set;
+        vector<vector<int>> ans;
+        for(int i=0; i<n; i++){
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            for(int j=i+1; j<n; j++){
+                if (j!=i+1 && nums[j] == nums[j - 1]) continue;
+                int l=j+1;
+                int r=n-1;
+                while(l<r){
+                    long long sum= nums[i];
+                    sum+= nums[j];
+                    sum+=nums[l];
+                    sum+=nums[r];
+                    if(sum==target){
+                        ans.push_back({nums[i], nums[j], nums[l],nums[r]});
+                        l++;
+                        r--;
+                        while(l<r && nums[l]==nums[l-1]) l++;
+                        while(l<r && nums[r]==nums[r+1]) r--;
                     } 
-                    mpp[nums[k]]++; 
+                    else if(sum<target) l++;
+                    else r--;
                 }
             }
         }
-        vector<vector<int>> output(set.begin(),set.end());
-        return output;
+        
+        return ans;
     }
 };
